@@ -8,7 +8,7 @@ pipeline {
     environment {
         IMAGE_NAME = "devopshubg333/batch13"
         GIT_REPO_NAME = "mindcircuit13"
-        GIT_USER_NAME = "devopstraininghub"
+        GIT_USER_NAME = "Gurraiah123"
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo "Cloning GitHub Repository..."
                 git branch: 'main',
-                    url: 'https://github.com/devopstraininghub/mindcircuit13.git'
+                    url: 'https://github.com/Gurraiah123/mindcircuit13.git'
             }
         }
 
