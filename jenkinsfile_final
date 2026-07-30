@@ -28,15 +28,15 @@ pipeline {
             }
         }
 
-       stage('SonarQube Scan') {
-    steps {
-        sh '''
-        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-        -Dsonar.host.url=http://18.145.169.232:9000 \
-        -Dsonar.token=squ_27be21158f6e4a0a139fe24bd6759ebcceec8474
-        '''
-    }
-}
+        stage('SonarQube Scan') {
+            steps {
+                sh '''
+                mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                -Dsonar.host.url=http://18.145.169.232:9000 \
+                -Dsonar.token=squ_27be21158f6e4a0a139fe24bd6759ebcceec8474
+                '''
+            }
+        }
 
         stage('Docker Build') {
             steps {
@@ -47,23 +47,21 @@ pipeline {
             }
         }
 
-       stage('Push Docker Image') {
-    steps {
-        withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_PASSWORD')]) {
-            sh '''
-            echo "$DOCKER_PASSWORD" | docker login -u guru0114 --password-stdin
-            docker push ${IMAGE_NAME}:${BUILD_NUMBER}
-            docker logout
-            '''
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                    echo "$DOCKER_PASSWORD" | docker login -u guru0114 --password-stdin
+                    docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker logout
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Update Deployment File') {
             steps {
-
-                withCredentials([string(credentialsId: 'githubtoken', variable: 'githubtoken')]) {
-
+                withCredentials([string(credentialsId: 'githubtoken', variable: 'GITHUB_TOKEN')]) {
                     sh '''
                     git config --global user.email "guru167677@gmail.com"
                     git config --global user.name "Gurraiah123"
@@ -74,11 +72,25 @@ pipeline {
 
                     git commit -m "Updated deployment image to version ${BUILD_NUMBER}" || echo "No changes to commit"
 
-                    git push https://${githubtoken}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
+                    git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
                     '''
                 }
             }
         }
+
     }
 
-    
+    post {
+        success {
+            echo "Pipeline completed successfully."
+        }
+
+        failure {
+            echo "Pipeline failed."
+        }
+
+        always {
+            cleanWs()
+        }
+    }
+}
