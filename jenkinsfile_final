@@ -62,7 +62,7 @@ pipeline {
         stage('Update Deployment File') {
             steps {
 
-                withCredentials([string(credentialsId: 'githubtoken', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'githubtoken', variable: 'githubtoken')]) {
 
                     sh '''
                     git config --global user.email "guru167677@gmail.com"
