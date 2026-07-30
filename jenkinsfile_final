@@ -47,17 +47,17 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_PASSWORD')]) {
-                    sh '''
-                    echo "$DOCKER_PASSWORD" | docker login -u guru0114 --password-stdin
-                    docker push '"${IMAGE_NAME}"':'"${BUILD_NUMBER}"'
-                    docker logout
-                    '''
-                }
-            }
+       stage('Push Docker Image') {
+    steps {
+        withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_PASSWORD')]) {
+            sh '''
+            echo "$DOCKER_PASSWORD" | docker login -u guru0114 --password-stdin
+            docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+            docker logout
+            '''
         }
+    }
+}
 
         stage('Update Deployment File') {
             steps {
