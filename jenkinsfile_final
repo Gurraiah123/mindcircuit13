@@ -33,7 +33,7 @@ pipeline {
                 sh '''
                 mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                 -Dsonar.host.url=http://18.145.169.232:9000 \
-                -Dsonar.token=squ_27be21158f6e4a0a139fe24bd6759ebcceec8474
+                -Dsonar.token=sqa_fd8ee1c352cdb1b614005c2ff6eb4e387538ea51
                 '''
             }
         }
