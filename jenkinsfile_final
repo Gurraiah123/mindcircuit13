@@ -32,8 +32,8 @@ pipeline {
             steps {
                 sh '''
                 mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                -Dsonar.host.url=http://54.241.124.181:9000 \
-                -Dsonar.token=sqa_fd8ee1c352cdb1b614005c2ff6eb4e387538ea51
+                -Dsonar.host.url=http://54.67.148.103:9000 \
+                -Dsonar.token=sqa_dfed5e5418fb49d6d5a41d6c344e9313bd645c77
                 '''
             }
         }
